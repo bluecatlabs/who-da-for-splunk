@@ -1,8 +1,8 @@
-# splunk-app-bluecatwhoda
+# Who-Da add-on for Splunk
 
-BlueCat Who-Da Technical Add-on for Splunk is a customized search function that can be used in co-ordination with your search indexes to provide complete visibility of information behind an IP address.
+The Who-Da add-on for Splunk is a customized search function that can be used in co-ordination with your search indexes to provide complete visibility of information behind an IP address.
 
-Customers using BlueCat DNS & DHCP and BlueCat DNS Edge can use this add-on to reveal the following important information for any IP address on their data:
+Customers using BlueCat DNS Integrity and BlueCat DNS Edge can use this add-on to find the following information for any IP address:
 - Associated MAC Address
 - The Network where this IP address resides
 - MAC address name
@@ -20,13 +20,13 @@ To install and configure this app on your supported Splunk platform, please foll
 3. Clicks the "Apps" dropdown in the upper left corner of the screen and select "Manage Apps"
 4. Select "Install App from file", click "choose file", navigate to the app package downloaded in the step 1, and click "Upload"
 
-<img src="https://github.com/bluecat-japac/splunk-app-bluecatwhoda/blob/master/images/installation.png" width=80%>
+![Screenshot](images/installation.png)
 
 ## Configuration Instructions
 
 After successfuly installing the app, the app should be visible under the Splunk Apps section as shown below. Click on "Set up"
 
-<img src="https://github.com/bluecat-japac/splunk-app-bluecatwhoda/blob/master/images/configuration.png" width=80%>
+![Screenshot](images/configuration.png)
 
 Configure the credentials to use to connect to your BlueCat Address Manager on the setup page:
 - Enter the IP address of your BlueCat Address Manager
@@ -34,7 +34,7 @@ Configure the credentials to use to connect to your BlueCat Address Manager on t
 - Enter the password and confirm it again.
 - Click Save
 
-<img src="https://github.com/bluecat-japac/splunk-app-bluecatwhoda/blob/master/images/setupscreen.png" width=80%>
+![Screenshot](images/setupscreen.png)
 
 ## Using Bluecat who-da custom search
 
@@ -44,11 +44,11 @@ Customers can use the “who” command by piping any data that has IP address i
 
 In the following example, 'dnsclient' is a field that represents an IP address performing a DNS query.
 
-<img src="https://github.com/bluecat-japac/splunk-app-bluecatwhoda/blob/master/images/searchquery.png" width=80%>
+![Screenshot](images/searchquery.png)
 
 If the query was successful, you should see the IP Address details such as the MAC address, network, IP address type, lease time, etc appear in the results as shown below:
 
-<img src="https://github.com/bluecat-japac/splunk-app-bluecatwhoda/blob/master/images/searchresults.png" width=80%>
+![Screenshot](images/searchresults.png)
 
 ## Credits
 BlueCat Splunk Who-da has been designed and developed for customers by the JAPAC team. 
@@ -60,7 +60,7 @@ BlueCat Splunk Who-da has been designed and developed for customers by the JAPAC
 
 ## License
 
-Copyright 2017 BlueCat Networks (USA) Inc. and its affiliates
+Copyright 2018 BlueCat Networks (USA) Inc. and its affiliates
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
