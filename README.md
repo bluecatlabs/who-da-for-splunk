@@ -51,7 +51,7 @@ If the query was successful, you should see the IP Address details such as the M
 ![Screenshot](images/searchresults.png)
 
 ## Credits
-BlueCat Splunk Who-da has been designed and developed for customers by the JAPAC team. 
+The Who-Da add-on for Splunk has been designed and developed by the BlueCat JAPAC team. 
 
 #### The Team:
 - David Jones
