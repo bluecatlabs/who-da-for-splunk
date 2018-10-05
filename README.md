@@ -19,7 +19,7 @@ To install the app directly from this repository:
 2. Restart Splunk
 
 To package this app for easy installation on another server:
-1. Package the application with the command: `splunk package who-da`
+1. Package the application with the command: `splunk package app who-da`
 2. The package file `who-da.spl` will be created in the directory `$SPLUNK_HOME/etc/system/static/app-packages/`
 
 To install from the package file:
