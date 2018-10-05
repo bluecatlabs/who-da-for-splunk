@@ -2,7 +2,7 @@
 
 The Who-Da add-on for Splunk is a customized search function that can be used in co-ordination with your search indexes to provide complete visibility of information behind an IP address.
 
-Customers using BlueCat DNS Integrity and BlueCat DNS Edge can use this add-on to find the following information for any IP address:
+Customers using BlueCat DNS Integrity can use this add-on to find the following information for any IP address:
 - Associated MAC Address
 - The Network where this IP address resides
 - MAC address name
@@ -13,30 +13,41 @@ Customers using BlueCat DNS Integrity and BlueCat DNS Edge can use this add-on t
 
 ## Installation Instructions
 
-To install and configure this app on your supported Splunk platform, please follow the following steps:
+To install the app directly from this repository:
 
-1. Download `bluecatwhoda_app.spl` to a location on your computer.
-2. Login to Splunk with an Administrator account
-3. Clicks the "Apps" dropdown in the upper left corner of the screen and select "Manage Apps"
-4. Select "Install App from file", click "choose file", navigate to the app package downloaded in the step 1, and click "Upload"
+1. Copy the who-da directory to `$SPLUNK_HOME/etc/apps/who-da`
+2. Restart Splunk
+
+To package this app for easy installation on another server:
+1. Package the application with the command: `splunk package who-da`
+2. The package file `who-da.spl` will be created in the directory `$SPLUNK_HOME/etc/system/static/app-packages/`
+
+To install from the package file:
+
+1. Login to Splunk with an Administrator account
+2. Clicks the "Apps" dropdown in the upper left corner of the screen and select "Manage Apps"
+3. Select "Install App from file"
+4. Click "Choose file", navigate to the app package created above, and click "Upload"
 
 ![Screenshot](images/installation.png)
 
 ## Configuration Instructions
 
-After successfuly installing the app, the app should be visible under the Splunk Apps section as shown below. Click on "Set up"
+After successfully installing the app, the app should be visible under the Splunk Apps section as shown below.
+
+Click on "Set up", listed under Actions for the Who-Da app:
 
 ![Screenshot](images/configuration.png)
 
 Configure the credentials to use to connect to your BlueCat Address Manager on the setup page:
 - Enter the IP address of your BlueCat Address Manager
 - Enter the username to be used for the REST API
-- Enter the password and confirm it again.
+- Enter the password and confirm it again
 - Click Save
 
 ![Screenshot](images/setupscreen.png)
 
-## Using Bluecat who-da custom search
+## Using Who-Da custom search
 
 Customers can use the “who” command by piping any data that has IP address information fields in it. The “who” command needs to be provided the name of the field that represents an IP address to be analysed as follows:
 
