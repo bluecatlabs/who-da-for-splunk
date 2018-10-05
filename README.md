@@ -16,7 +16,9 @@ Customers using BlueCat DNS Integrity can use this add-on to find the following 
 To install the app directly from this repository:
 
 1. Copy the who-da directory to `$SPLUNK_HOME/etc/apps/who-da`
-2. Restart Splunk
+2. Download the Splunk SDK python library "splunklib" with `pip download splunk-sdk` This is also available from https://github.com/splunk/splunk-sdk-python
+3. Extract and copy the "splunklib" python library to `$SPLUNK_HOME/etc/apps/who-da/bin/splunklib`
+4. Restart Splunk
 
 To package this app for easy installation on another server:
 1. Package the application with the command: `splunk package app who-da`
