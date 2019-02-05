@@ -11,6 +11,10 @@ Customers using BlueCat DNS Integrity can use this add-on to find the following 
 - IP Address type (DHCP or Static)
 - IP Address lease time (if DHCP)
 
+## Customization
+
+Modify the useful_fields list in who-da/bin/stream.py to configure the fields added by the search function.
+
 ## Installation Instructions
 
 To install the app directly from this repository:

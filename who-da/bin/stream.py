@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Copyright 2018 BlueCat Networks (USA) Inc. and its affiliates
+# Copyright 2019 BlueCat Networks (USA) Inc. and its affiliates
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ import os
 import sys
 import requests
 from BAM import BAM
-from BAM import ip
 
 from splunklib.searchcommands import \
     dispatch, StreamingCommand, Configuration, Option, validators
@@ -36,6 +35,7 @@ def getConfVals():
 @Configuration()
 class BluecatIdentityCommand(StreamingCommand):
     source = Option(require=True, validate=None)
+    useful_fields = ['ip_macAddress', 'ip_leaseTime', 'ip_state', 'host_absoluteName', 'mac_name', 'net_name']
     ips = []
 
     def cacheAdd(self,update_record):
@@ -53,39 +53,48 @@ class BluecatIdentityCommand(StreamingCommand):
 	getConfVals()
 	bam = BAM(confval["bamip"], confval["username"], confval["password"])
 	bam.login()
-	usefull_records = ['ip_macAddress', 'ip_leaseTime', 'ip_state', 'host_absoluteName']
 
 	for record in records:
-		present = 0
-		ipaddr = record[self.source]
-		ipobj = self.cacheLookup(ipaddr)
-		update_record = {}
-		obj = {}
+		if self.source in record:
+			ipaddr = record[self.source]
+			ipobj = self.cacheLookup(ipaddr)
+			update_record = {}
+			obj = {}
 
-		if not ipobj:
-			obj = bam.getEntity('ip', ipaddr)
-			if obj.values:
-				hostname = obj.getLinkedEntity('HostRecord')
-				ipobj = obj.values
-				for key in ipobj:
-					update_record[key] = ipobj[key]
+			if not ipobj:
+				obj = bam.getIP4Address(ipaddr)
+				if obj:
+					ipobj = obj.values
+					update_record.update(ipobj)
 
+					# If no object found returns None
+					hostname = obj.getLinkedHostRecord()
+					if hostname:
+						update_record.update(hostname.values)
 
-				if "mac_macAddress" in ipobj:
-					macobj = bam.getEntity('mac', ipobj["mac_macAddress"])
-					user = macobj.getLinkedEntity('Tag')
-					for key in macobj.values:
-						update_record[key] = macobj.values[key]
-					
-				self.cacheAdd(update_record)
-		else:
-			update_record = ipobj
+					network = obj.getParent()
+					if network:
+						update_record.update(network.values)
 
-		for key in usefull_records:
-			if key in update_record:
-				record[key] = update_record[key]
+					if "ip_macAddress" in ipobj:
+						macobj = bam.getMACAddress(ipobj["ip_macAddress"])
+						update_record.update(macobj.values)
+						# Copy attributes from one Tag on MAC address object
+						# MAC address objects are tagged with a user in Identity Bridge
+						user = macobj.getLinkedTag()
+						if user:
+							update_record.update(user.values)
+
+					self.cacheAdd(update_record)
 			else:
-				record[key] = "-"
+				update_record = ipobj
+
+			for key in self.useful_fields:
+				if key in update_record:
+					record[key] = update_record[key]
+				else:
+					record[key] = ""
+
 		yield record
 	return
 	
