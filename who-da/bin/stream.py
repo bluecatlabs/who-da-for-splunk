@@ -23,14 +23,9 @@ from BAM import BAM
 from splunklib.searchcommands import \
     dispatch, StreamingCommand, Configuration, Option, validators
 
-confval = {}
-def getConfVals():
-        appdir = os.path.dirname(os.path.dirname(__file__))
-        localconfpath = os.path.join(appdir, "local", "appsetup.conf")
-        for line in open(localconfpath).read().split("\n"):
-                values = line.split("=")
-                if len(values)>1:
-                        confval[values[0].strip()] = values[1].lstrip()
+# Using undocumented, internal splunk library to load configuration file
+# https://answers.splunk.com/answers/69438/retrieve-configuration-items-from-a-custom-python-search-command.html
+from splunk.clilib import cli_common
 
 @Configuration()
 class BluecatIdentityCommand(StreamingCommand):
@@ -50,8 +45,8 @@ class BluecatIdentityCommand(StreamingCommand):
 
     def stream(self, records):
 
-	getConfVals()
-	bam = BAM(confval["bamip"], confval["username"], confval["password"])
+	cfg = cli_common.getConfStanza("appsetup","app_config")
+	bam = BAM(cfg.get("bamip"), cfg.get("username"), cfg.get("password"))
 	bam.login()
 
 	for record in records:
@@ -96,6 +91,8 @@ class BluecatIdentityCommand(StreamingCommand):
 					record[key] = ""
 
 		yield record
+
+	bam.logout()
 	return
 	
 

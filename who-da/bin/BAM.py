@@ -34,6 +34,9 @@ class BAM():
 	elements = str(response.text).split(' ')
         self.headers = { "Authorization" :  elements[2] + " " +  elements[3] }
 
+    def logout(self):
+        url = self.url + 'logout'
+        response = requests.get(url, headers=self.headers)
 
     def restCall(self, call, data, json=0):
 	url = self.url + call
